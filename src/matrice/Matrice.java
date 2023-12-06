@@ -31,16 +31,19 @@ public class Matrice {
 		System.out.println(v1.listePersonnel());
 		try {
 			// Assigne personnel à v1
-			v1.addPersonnel(flotte.getPersonnel("Morpheus"));
-			v1.addPersonnel(flotte.getPersonnel("Neo"));
+			v1.affecter(flotte.getPersonnel("Morpheus"));
+			v1.affecter(flotte.getPersonnel("Neo"));
 		} catch (MatriceException e) {
 			System.out.println(e);
 		}
 		System.out.println(v1.listePersonnel());
-		v1.delPersonnel("Morpheus");
+		v1.desaffecter(flotte.getPersonnel("Morpheus"));
 		System.out.println(v1.listePersonnel());
 		
 		System.out.println(flotte);
+		
+		System.out.println(flotte.getPersonnel("Morpheus").isAffected());
+		System.out.println(flotte.getPersonnel("Neo").isAffected());
 	}
 	
 }

@@ -3,13 +3,13 @@ package matrice;
 public class Vaisseau {
 	
 	// Attributs
-	public String nom;
+	private String nom;
 	private String type;
 	private int MAX_MEMBRES;
 	private Personnel[] equipage;
 	private int nb_equipage;
 	
-	// Générateur
+	// Constructeur
 	public Vaisseau(String nom, String type) {
 		this.nom = nom;
 		this.type = type;
@@ -18,15 +18,21 @@ public class Vaisseau {
 		this.nb_equipage = 0;
 	}
 	
+	// Getters
+	public String getNom() {
+		return this.nom;
+	}
+	
 	public String toString() {
 		return nom + ", vaisseau de " + type;
 	}
 
 	// Ajoute un membre à l'équipage
-	public void addPersonnel(Personnel pToAdd) throws MatriceException {
+	public void affecter(Personnel p) throws MatriceException {
 		if (nb_equipage < MAX_MEMBRES) {
 			// -> A FAIRE : vérifier si membre pas déjà dans equipage
-			equipage[nb_equipage] = pToAdd;
+			equipage[nb_equipage] = p;
+			p.setVaisseau(this);
 			nb_equipage += 1;			
 		} else {
 			throw new MatriceException("Equipage déjà au complet");
@@ -34,11 +40,12 @@ public class Vaisseau {
 	}
 	
 	// Supprime un membre d'équipage à partir de son nom
-	public void delPersonnel(String nom) {
+	public void desaffecter(Personnel p) {
 		for (int i=0; i<nb_equipage; i++) {
-			if (equipage[i].nom == nom) {
+			if (equipage[i] == p) {
 				equipage[i] = equipage[nb_equipage-1];
 				equipage[nb_equipage-1] = null;
+				p.setVaisseau(null);
 				nb_equipage -= 1;
 			}
 		}

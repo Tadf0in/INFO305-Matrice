@@ -13,26 +13,24 @@ public class Flotte {
 		this.vaisseaux  = new ArrayList<Vaisseau>();
 	}
 	
-	// Méthodes
-	
 	// Vérifie qu'il n'existe pas déjà un vaisseau avec le même nom avant d'ajouter dans la liste
-	private static void addUniqueVaisseau(ArrayList<Vaisseau> array, Vaisseau value) throws MatriceException {
-		for (Vaisseau v: array) {
-			if (v.nom == value.nom) {				
+	private void addUniqueVaisseau(Vaisseau value) throws MatriceException {
+		for (Vaisseau v: this.vaisseaux) {
+			if (v.getNom() == value.getNom()) {				
 				throw new MatriceException("Un vaisseau porte déjà ce nom");
 			}
 		}
-		array.add(value);
+		this.vaisseaux.add(value);
 	}
 	
 	// Vérifie qu'il n'existe pas déjà quelqu'un avec le même nom avant d'ajouter dans la liste
-	private void addUniquePersonnel(ArrayList<Personnel> array, Personnel value) throws MatriceException {
-		for (Personnel p: array) {
-			if (p.nom == value.nom) {				
+	private void addUniquePersonnel(Personnel value) throws MatriceException {
+		for (Personnel p: this.personnel) {
+			if (p.getNom() == value.getNom()) {				
 				throw new MatriceException("Un membre du personnel porte déjà ce nom");
 			}
 		}
-		array.add(value);
+		this.personnel.add(value);
 	}
 	
 	// Ajoute une liste de vaisseaux dans la flotte, en vérifiant à chaque fois si il peut être ajouté
@@ -40,7 +38,7 @@ public class Flotte {
 		// On vérifie chaque élément de la liste temporaire avant de l'ajouter dans la vraie liste
 		for (Vaisseau v: vaisseauxAAjouter) {
 			try {
-				addUniqueVaisseau(this.vaisseaux, v); // Fonction définie plus haut		
+				addUniqueVaisseau(v); // Fonction définie plus haut		
 			} catch (MatriceException e) {
 				System.out.println(e);
 			}
@@ -54,7 +52,7 @@ public class Flotte {
 		// On vérifie chaque élément de la liste temporaire avant de l'ajouter dans la vraie liste	 
 		for (Personnel p: personnelAAjouter) {
 			try {
-				addUniquePersonnel(this.personnel, p); // Fonction définie plus haut				
+				addUniquePersonnel(p); // Fonction définie plus haut				
 			} catch (MatriceException e) {
 				System.out.println(e);
 			}
@@ -65,7 +63,7 @@ public class Flotte {
 	// Cherche un vaisseau grâce à son nom
 	public Vaisseau getVaisseau(String nom) {
 		for (Vaisseau v: this.vaisseaux) {
-			if (v.nom == nom) {
+			if (v.getNom() == nom) {
 				return v;
 			}
 		}
@@ -75,7 +73,7 @@ public class Flotte {
 	// Cherche un membre grâce à son nom
 	public Personnel getPersonnel(String nom) {
 		for (Personnel p: this.personnel) {
-			if (p.nom == nom) {
+			if (p.getNom() == nom) {
 				return p;
 			}
 		}
