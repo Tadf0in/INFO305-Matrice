@@ -82,24 +82,34 @@ public class Flotte {
 
 	// Pour afficher la liste des vaisseaux
 	public String listeVaisseaux() {
-		String out = "Liste des vaisseaux :\n";
+		String out = "Vaisseaux :\n";
 		for (Vaisseau v: this.vaisseaux) {
-			out += " - " + v + "\n";
+			out += "\t- " + v + "\n";
 		}
 		return out;
 	}
 	
 	// Pour afficher la liste du personnel
 	public String listePersonnel() {
-		String out = "Liste du personnel :\n";
+		String out = "Liste du personnel :";
 		for (Personnel p: personnel) {
-			out += " - " + p + "\n";
+			out += "\n\t- " + p;
+		}
+		return out;
+	}
+	// Pareil mais pour le personnel qui n'est pas affecté à un vaisseau
+	public String listeNonAffectes() {
+		String out = "Personnel non affecté :";
+		for (Personnel p: personnel) {
+			if (!p.isAffected()) {				
+				out += "\n\t- " + p;
+			}
 		}
 		return out;
 	}
 	
 	// Pour afficher la flotte
 	public String toString() {
-		return this.listeVaisseaux() + "\n" + this.listePersonnel();
+		return this.listeVaisseaux() + "\n" + this.listeNonAffectes();
 	}
 }

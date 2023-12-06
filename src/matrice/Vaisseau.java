@@ -24,16 +24,19 @@ public class Vaisseau {
 	}
 	
 	public String toString() {
-		return nom + ", vaisseau de " + type;
+		return nom + ", vaisseau de " + type + ", " + this.listePersonnel();
 	}
 
 	// Ajoute un membre à l'équipage
 	public void affecter(Personnel p) throws MatriceException {
 		if (nb_equipage < MAX_MEMBRES) {
-			// -> A FAIRE : vérifier si membre pas déjà dans equipage
-			equipage[nb_equipage] = p;
-			p.setVaisseau(this);
-			nb_equipage += 1;			
+			if (!p.isAffected()) {
+				equipage[nb_equipage] = p;
+				p.setVaisseau(this);
+				nb_equipage += 1;	
+			} else {
+				throw new MatriceException("Membre déjà affecté dans un vaisseau");
+			}
 		} else {
 			throw new MatriceException("Equipage déjà au complet");
 		}
@@ -53,9 +56,9 @@ public class Vaisseau {
 	
 	// Parcours et ajoute dans un String chaque personne de l'équipage
 	public String listePersonnel() {
-		String out = nb_equipage + " personne(s) dans l'équipage : \n";
+		String out = nb_equipage + " personne(s) dans l'équipage :";
 		for (int i=0; i<nb_equipage; i++) {
-			out += (i+1) + ". " + equipage[i] + "\n";
+			out += "\n\t\t" + (i+1) + ". " + equipage[i];
 		}
 		return out;
 	}
