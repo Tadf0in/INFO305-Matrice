@@ -1,17 +1,23 @@
 package matrice;
 
-public class Agent extends Personnel {
+public class Agent extends MembreLibere { // classe parent MembreLibere car peut aussi entrer dans la matrice
 	
 	// Attributs
 	private int degreEfficacite;
-	private int x;
-	private int y;
 	
 	// Constructeur
 	public Agent(String nom, boolean genre, int degre, int x, int y) {
-		super(nom, genre, 0, "agent"); // Initalisation de la classe parent (Personnel) avec le grade d'agent
+		super(nom, genre, 0, "agent"); // Initalisation de la classe parent (MembreLibere) avec le grade d'agent
 		this.degreEfficacite = degre;
-		this.x = x;
-		this.y = y;
+		super.setCoordinates(x, y);
+	}
+	
+	public String toString() {
+		return super.toString() + ", degré d'efficacité : " + degreEfficacite;
+	}
+	
+	// Retourne ce qui va être afficher aux coordonées du membre dans la matrice
+	public String getIcone() {
+		return "A" + degreEfficacite + " ";
 	}
 }

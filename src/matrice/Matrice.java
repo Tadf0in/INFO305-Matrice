@@ -4,39 +4,76 @@ import java.util.ArrayList;
 public class Matrice {
 
 	// Attributs
-	private ArrayList<Personnel> presents;
+	private ArrayList<MembreLibere> presents;
 	private String[][] grille;
 	
 	// Constructeur
 	public Matrice() {
+		// Initialise la grille de 10x10 points
 		grille = new String[10][10];
 		for (int i=0; i<10; i++) {
 			String[] row = new String[10];
 			for (int j=0; j<10; j++) {
-				row[j] = ".";
+				row[j] = ".  ";
 			}
 			grille[i] = row;
 		}
 		
-		presents = new ArrayList<Personnel>();
-		presents.add(new Agent("agent_0", false, 0, 0, 0));
-		presents.add(new Agent("agent_1", false, 0, 0, 0));
-		presents.add(new Agent("agent_2", false, 0, 0, 0));
+		presents = new ArrayList<MembreLibere>();
+		for (int i=0; i<3; i++) { // 3 tours de boucle pour ajouter 3 agents
+			int x; int y;
+			// Choisit des coordonées aléatoire et en rechoisis d'autre juqu'à en trouver des libres
+			do {	
+				x = (int)(Math.random() * 10);
+				y = (int)(Math.random() * 10);
+			} while (atPosition(x, y) != ".  ");
+			presents.add(new Agent("agent_"+i, false, (int)(Math.random() * 5), x, y));
+		}
 	}
 	
 	public String toString() {
 		return this.afficher();
 	}
 	
+	// Retourne ce qu'il doit être affiché à une certaine position x, y
+	public String atPosition(int x, int y) {
+		for (MembreLibere membre: this.presents) { // Parcours les membres à l'intérieur de la matrice
+			if (membre.getX() == x && membre.getY() == y) { // Si membre se trouve aux coordonées demandées
+				return membre.getIcone();
+			}
+		}
+		return ".  ";
+	}
+	
+	// Met à jour la grille avec les nouvelles positions
+	public void updateGrille() {
+		for (int i=0; i<10; i++) { // Parcours les colonnes
+			for (int j=0; j<10; j++) { // Parcours les lignes
+				grille[i][j] = this.atPosition(i, j);
+			}
+		}
+	}
+	
 	// Affiche la matrice
 	public String afficher() {
+		this.updateGrille();
 		String out = "   0  1  2  3  4  5  6  7  8  9 \n";
-		for (int i=0; i<10; i++) {
+		for (int i=0; i<10; i++) { // Parcours les colonnes
 			out += i + "  ";
-			for (int j=0; j<10; j++) {
-				out += grille[i][j] + "  ";
+			for (int j=0; j<10; j++) { // Parcours les lignes
+				out += grille[i][j];
 			}
 			out += "\n";
+		}
+		return out;
+	}
+	
+	// Affiche la liste des membres présents à l'interieur de la matrice
+	public String listeMembres() {
+		// -> A FAIRE : trier par ordre laphabétique
+		String out = "Membres présents dans la matrice :\n";
+		for (Personnel membre: this.presents) {
+			out += "\t- " + membre + "\n";
 		}
 		return out;
 	}

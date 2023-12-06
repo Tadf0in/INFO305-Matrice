@@ -48,6 +48,7 @@ public class Main {
 		
 		Matrice m = new Matrice();
 		System.out.println(m);
+		System.out.println(m.listeMembres());
 	}
 	
 }
