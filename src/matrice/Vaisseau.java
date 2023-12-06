@@ -22,7 +22,7 @@ public class Vaisseau {
 		return nom + ", vaisseau de " + type;
 	}
 
-	// AJotue un membre à l'équipage
+	// Ajoute un membre à l'équipage
 	public void addPersonnel(Personnel pToAdd) throws MatriceException {
 		if (nb_equipage < MAX_MEMBRES) {
 			// -> A FAIRE : vérifier si membre pas déjà dans equipage
@@ -33,6 +33,7 @@ public class Vaisseau {
 		}
 	}
 	
+	// Supprime un membre d'équipage à partir de son nom
 	public void delPersonnel(String nom) {
 		for (int i=0; i<nb_equipage; i++) {
 			if (equipage[i].nom == nom) {
@@ -41,7 +42,6 @@ public class Vaisseau {
 				nb_equipage -= 1;
 			}
 		}
-		// -> A FAIRE : Exception : pas dans l'equipage
 	}
 	
 	// Parcours et ajoute dans un String chaque personne de l'équipage
@@ -51,5 +51,20 @@ public class Vaisseau {
 			out += (i+1) + ". " + equipage[i] + "\n";
 		}
 		return out;
+	}
+	
+	// Vérifie qu'il y a bien un Operateur SION et un membre libéré dans l'équipage
+	public boolean checkPersonnel() {
+		boolean op = false;
+		boolean ml = false;
+		for (int i=0; i<nb_equipage; i++) {
+			if (equipage[i] instanceof OperateurSION) {
+				op = true;
+			}
+			else if (equipage[i] instanceof MembreLibere) {
+				ml = true;
+			}
+		}
+		return op && ml;
 	}
 }
