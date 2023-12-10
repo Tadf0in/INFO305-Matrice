@@ -27,7 +27,8 @@ public class Matrice {
 				x = (int)(Math.random() * 10);
 				y = (int)(Math.random() * 10);
 			} while (atPosition(x, y) != ".  ");
-			presents.add(new Agent("agent_"+i, false, (int)(Math.random() * 5), x, y));
+			// Ajoute l'agent dans la matrice
+			presents.add(new Agent("agent_"+i, false, (int)(Math.random() * 5), x, y)); 
 		}
 	}
 	
