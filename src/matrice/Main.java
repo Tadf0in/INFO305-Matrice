@@ -78,6 +78,8 @@ public class Main {
 		System.out.println(M);
 		System.out.println(M.listeMembres());
 		
+		System.out.println(M.agentPlusProche((MembreLibere)flotte.getPersonnel("Neo"))); // Test la fonction agentPlusProche
+		
 		// Exfiltre la matrice
 		((MembreLibere) flotte.getPersonnel("Neo")).exfiltrer(M);
 		System.out.println(flotte.getPersonnel("Neo")); // Vérifie l'incrément de nb_infiltration

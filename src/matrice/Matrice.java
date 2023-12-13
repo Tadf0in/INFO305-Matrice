@@ -90,4 +90,28 @@ public class Matrice {
 	public void sortir(MembreLibere m) {
 		presents.remove(m);
 	}
+	
+	// Caclule la distance entre un membre et un agent
+	public double distanceAgent(MembreLibere mbr, Agent agt) {
+		int x = agt.getX() - mbr.getX();
+		int y = agt.getY() - mbr.getY();
+		return Math.sqrt(x*x + y*y);
+	}
+	
+	// Retourne l'agent le plus proche du Membre mbr
+	public Agent agentPlusProche(MembreLibere mbr) {
+		double min_distance = 15; // distance max possible = 10*sqrt(2) ~= 14.1 < 15
+		Agent agentpp = null;
+		for (MembreLibere m: presents) { // Parcours tous les membres présents dans la matrice
+			if (m instanceof Agent) { // Si bien agent et pas autre membre
+				double d = distanceAgent(mbr, (Agent)m); 
+				// Garde la plus petite distance et l'agent qui s'y trouve
+				if (d < min_distance) {
+					min_distance = d;
+					agentpp = (Agent)m;
+				}
+			}
+		}
+		return agentpp;
+	}
 }
