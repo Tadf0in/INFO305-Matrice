@@ -98,12 +98,12 @@ public class Main {
 		ArrayList<String> chars = new ArrayList<String>(Arrays.asList("&","é","'","(","-","è","_","ç","à",")","=","°","+","/","*","~","#","{","[","|","`","\\","^","@","]","}"));
 		
 		int NB_COLONNES = 80;
-		int NB_LIGNES = 100;
+		int NB_LIGNES = 150;
 		
 		// Définit des tailles aléatoires de colonnes
 		int[] long_colonnes = new int[NB_COLONNES];
 		for (int j=0; j<NB_COLONNES; j++) {
-			long_colonnes[j] = (int)(Math.random() * NB_LIGNES);
+			long_colonnes[j] = (int) (NB_LIGNES - (Math.random() * (NB_LIGNES - NB_LIGNES*0.2)));
 		}
 		
 		System.out.print("\u001B[32m"); // Couleur verte

@@ -13,7 +13,7 @@ public class MembreLibere extends Personnel {
 	// Constructeur
 	public MembreLibere (String nom, boolean genre, int age, String grade) {
 		super(nom, genre, age, grade); // Initialisation de la calsse parent (Personnel)
-		this.nb_infiltration = 1;
+		this.nb_infiltration = 0;
 		this.infiltred = false;
 		this.disconnected = false;
 		this.icone = "M  ";
