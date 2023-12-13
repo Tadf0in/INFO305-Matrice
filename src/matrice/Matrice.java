@@ -130,11 +130,15 @@ public class Matrice {
 			m.Disconnect();
 		} else {
 			a.setDegreEfficacite((int) de - de/2);
+			// Si degre tombe à 0, vérifie le peuple de SION a vaincu (= autres agents aussi à 0)
+			if (a.getDegreEfficacite() == 0) {
+				checkVictory();
+			}
 		}
 	}
 	
 	// Regarde si le peuple de SION à vaincu
-	public boolean victory() {
+	public boolean checkVictory() {
 		boolean v = true;
 		// Vérifie si tous les agents ont leur degré d'efficacité = 0
 		for (MembreLibere a: presents) {
