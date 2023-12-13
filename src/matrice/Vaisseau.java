@@ -64,7 +64,7 @@ public class Vaisseau {
 	}
 	
 	// Vérifie qu'il y a bien un Operateur SION et un membre libéré dans l'équipage
-	public boolean checkPersonnel() {
+	public boolean isSafe() {
 		boolean op = false;
 		boolean ml = false;
 		for (int i=0; i<nb_equipage; i++) {

@@ -1,6 +1,6 @@
 package matrice;
 
-public class Personnel {
+public class Personnel implements Comparable<Personnel> { // L'interface Comparable est utilisé dans la méthode compareTo plus bas
 	
 	// Attributs
 	private String nom;
@@ -12,6 +12,10 @@ public class Personnel {
 	// Getters
 	public String getNom() {
 		return this.nom;
+	}
+	
+	public Vaisseau getVaisseau() {
+		return this.vaisseau;
 	}
 	
 	// Setters
@@ -36,4 +40,10 @@ public class Personnel {
 	public boolean isAffected() {
 		return vaisseau != null;
 	}
+	
+	// Utile pour comparer le nom à celui d'une autre personne pour trier alphabétiquement
+	@Override
+    public int compareTo(Personnel autrePersonnel) {
+        return this.nom.compareToIgnoreCase(autrePersonnel.getNom());
+    }
 }

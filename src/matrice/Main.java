@@ -6,11 +6,12 @@ import java.util.concurrent.TimeUnit;
 public class Main {
 	public static void main(String[] args) {
 		
-		// Rain();
+		Rain();
 				
 		Flotte flotte = new Flotte();
 		
 		// Liste temporaire des vaisseaux qu'on souhaite ajouter
+		// On passe par un liste pour pas avoir à faire le try catch à chaque ajout
 		ArrayList<Vaisseau> vaisseauxAAjouter = new ArrayList<Vaisseau>();
 		vaisseauxAAjouter.add(new Vaisseau("Vaisseau 1", "guerre"));
 		vaisseauxAAjouter.add(new Vaisseau("Vaisseau 2", "guerre"));
@@ -21,6 +22,7 @@ public class Main {
 		
 		
 		// Liste temporaire du personnel qu'on souhaite ajouter
+		// On passe par un liste pour pas avoir à faire le try catch à chaque ajout
 		ArrayList<Personnel> personnelAAjouter = new ArrayList<Personnel>();
 		personnelAAjouter.add(new OperateurSION("Morpheus", false, 50, "commandant", "communication"));
 		personnelAAjouter.add(new MembreLibere("Neo", false, 25, "lieutenant"));
@@ -50,9 +52,29 @@ public class Main {
 		System.out.println(flotte.getPersonnel("Neo").isAffected());
 		
 		
-		Matrice m = new Matrice();
-		System.out.println(m);
-		System.out.println(m.listeMembres());
+		Matrice M = new Matrice();
+		
+		// test infiltration sans vaisseau sécurisé
+		try {				
+			((MembreLibere) flotte.getPersonnel("Neo")).infiltrer(M); 
+		} catch (MatriceException e) {
+			System.out.println(e);
+		}
+		// Sécurise le vaisseau puis retest
+		try {
+			v1.affecter(flotte.getPersonnel("Morpheus"));
+			v1.affecter(flotte.getPersonnel("Neo")); // Test affecter membre déjà affecté
+		} catch (MatriceException e) {
+			System.out.println(e);
+		}
+		try {
+			((MembreLibere) flotte.getPersonnel("Neo")).infiltrer(M); 
+		} catch (MatriceException e) {
+			System.out.println(e);
+		}
+
+		System.out.println(M);
+		System.out.println(M.listeMembres());
 	}
 	
 	

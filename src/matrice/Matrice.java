@@ -21,14 +21,8 @@ public class Matrice {
 		
 		presents = new ArrayList<MembreLibere>();
 		for (int i=0; i<3; i++) { // 3 tours de boucle pour ajouter 3 agents
-			int x; int y;
-			// Choisit des coordonées aléatoire et en rechoisis d'autre juqu'à en trouver des libres
-			do {	
-				x = (int)(Math.random() * 10);
-				y = (int)(Math.random() * 10);
-			} while (atPosition(x, y) != ".  ");
 			// Ajoute l'agent dans la matrice
-			presents.add(new Agent("agent_"+i, false, (int)(Math.random() * 5), x, y)); 
+			this.entrer(new Agent("agent_"+(3-i), false, (int)(Math.random() * 5))); 
 		}
 	}
 	
@@ -73,9 +67,22 @@ public class Matrice {
 	public String listeMembres() {
 		// -> A FAIRE : trier par ordre laphabétique
 		String out = "Membres présents dans la matrice :\n";
-		for (Personnel membre: this.presents) {
-			out += "\t- " + membre + "\n";
+		java.util.Collections.sort(presents); // Tri la liste par ordre alphabétique
+		for (MembreLibere membre: this.presents) {
+			out += "\t- " + membre.getNom() + ", (" + membre.getX() + ", " + membre.getY() + ")\n";
 		}
 		return out;
+	}
+	
+	// Fait rentrer un membre dans la matrice
+	public void entrer(MembreLibere m) {
+		int x; int y;
+		// Choisit des coordonées aléatoire et en rechoisis d'autre juqu'à en trouver des libres
+		do {	
+			x = (int)(Math.random() * 10);
+			y = (int)(Math.random() * 10);
+		} while (atPosition(x, y) != ".  ");
+		m.setCoordinates(x, y); // Assigne les coordonées libres au membre
+		presents.add(m); // Ajoute le membre dans la liste des membres présents à l'intérieur de la matrice
 	}
 }

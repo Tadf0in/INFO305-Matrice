@@ -6,6 +6,7 @@ public class MembreLibere extends Personnel {
 	private int nb_infiltration;
 	private int x;
 	private int y;
+	private String icone; // Ce qui va être afficher aux coordonées du membre dans la matrice
 	private boolean infiltred;
 	
 	// Constructeur
@@ -15,37 +16,46 @@ public class MembreLibere extends Personnel {
 		this.infiltred = false;
 	}
 	
-	// Méthodes
-	public String toString() {
-		return super.toString() + ", Infiltrations : " + nb_infiltration + " fois.";
-	}
-	
-	// Infiltre la matrice
-	public void infiltrer() {
-		nb_infiltration += 1;
-		infiltred = true;
-	}
-	
-	// Est dans la matrice ?
-	public boolean isInfiltred() {
-		return infiltred;
-	}
-	
-	// Retourne les coordonées
+	// Getters
 	public int getX() {
 		return x;
 	}
 	public int getY() {
 		return y;
 	}
+	public String getIcone() {
+		return icone;
+	}
 	
+	// Setters
+	// Set les 2 coordonnées d'un seul coup
 	public void setCoordinates(int x, int y) {
 		this.x = x;
 		this.y = y;
 	}
+	public void setIcone(String icone) {
+		this.icone = icone;
+	}
 	
-	// Retourne ce qui va être afficher aux coordonées du membre dans la matrice
-	public String getIcone() {
-		return "M  ";
+	// Méthodes
+	public String toString() {
+		return super.toString() + ", Infiltrations : " + nb_infiltration + " fois.";
+	}
+	
+	// Infiltre la matrice
+	public void infiltrer(Matrice M) throws MatriceException {
+		if (super.getVaisseau().isSafe()) {
+			M.entrer(this);
+			nb_infiltration += 1;
+			infiltred = true;
+			setIcone("M  ");
+		} else {
+			throw new MatriceException("Infiltration impossible, le vaisseau n'est pas sécurisé");
+		}
+	}
+	
+	// Est dans la matrice ?
+	public boolean isInfiltred() {
+		return infiltred;
 	}
 }
