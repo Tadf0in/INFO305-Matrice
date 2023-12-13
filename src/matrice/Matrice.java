@@ -74,7 +74,7 @@ public class Matrice {
 		return out;
 	}
 	
-	// Fait rentrer un membre dans la matrice
+	// Fait rentrer un membre dans la matrice -> le rajoute dans la liste
 	public void entrer(MembreLibere m) {
 		int x; int y;
 		// Choisit des coordonées aléatoire et en rechoisis d'autre juqu'à en trouver des libres
@@ -84,5 +84,10 @@ public class Matrice {
 		} while (atPosition(x, y) != ".  ");
 		m.setCoordinates(x, y); // Assigne les coordonées libres au membre
 		presents.add(m); // Ajoute le membre dans la liste des membres présents à l'intérieur de la matrice
+	}
+	
+	// Membre sort de la matrice -> retiré de la liste
+	public void sortir(MembreLibere m) {
+		presents.remove(m);
 	}
 }

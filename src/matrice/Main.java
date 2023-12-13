@@ -67,12 +67,22 @@ public class Main {
 		} catch (MatriceException e) {
 			System.out.println(e);
 		}
+		// infiltre la matrice depuis vaisseau sécurisé
 		try {
 			((MembreLibere) flotte.getPersonnel("Neo")).infiltrer(M); 
 		} catch (MatriceException e) {
 			System.out.println(e);
 		}
 
+		// Affiche la matrice
+		System.out.println(M);
+		System.out.println(M.listeMembres());
+		
+		// Exfiltre la matrice
+		((MembreLibere) flotte.getPersonnel("Neo")).exfiltrer(M);
+		System.out.println(flotte.getPersonnel("Neo")); // Vérifie l'incrément de nb_infiltration
+		
+		// Affiche la matrice
 		System.out.println(M);
 		System.out.println(M.listeMembres());
 	}

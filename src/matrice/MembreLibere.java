@@ -36,6 +36,9 @@ public class MembreLibere extends Personnel {
 	public void setIcone(String icone) {
 		this.icone = icone;
 	}
+	public void setInfiltred(boolean bool) {
+		this.infiltred = bool;
+	}
 	
 	// Méthodes
 	public String toString() {
@@ -46,12 +49,18 @@ public class MembreLibere extends Personnel {
 	public void infiltrer(Matrice M) throws MatriceException {
 		if (super.getVaisseau().isSafe()) {
 			M.entrer(this);
-			nb_infiltration += 1;
-			infiltred = true;
+			setInfiltred(true);
 			setIcone("M  ");
 		} else {
 			throw new MatriceException("Infiltration impossible, le vaisseau n'est pas sécurisé");
 		}
+	}
+	
+	// Sort de la matrice -> nb infiltration augmente
+	public void exfiltrer(Matrice M) {
+		M.sortir(this);
+		setInfiltred(false);
+		nb_infiltration += 1;
 	}
 	
 	// Est dans la matrice ?
