@@ -8,12 +8,15 @@ public class MembreLibere extends Personnel {
 	private int y;
 	private String icone; // Ce qui va être afficher aux coordonées du membre dans la matrice
 	private boolean infiltred;
+	private boolean disconnected;
 	
 	// Constructeur
 	public MembreLibere (String nom, boolean genre, int age, String grade) {
 		super(nom, genre, age, grade); // Initialisation de la calsse parent (Personnel)
-		this.nb_infiltration = 0;
+		this.nb_infiltration = 1;
 		this.infiltred = false;
+		this.disconnected = false;
+		this.icone = "M  ";
 	}
 	
 	// Getters
@@ -25,6 +28,9 @@ public class MembreLibere extends Personnel {
 	}
 	public String getIcone() {
 		return icone;
+	}
+	public int getNbInfiltration() {
+		return nb_infiltration;
 	}
 	
 	// Setters
@@ -39,6 +45,9 @@ public class MembreLibere extends Personnel {
 	public void setInfiltred(boolean bool) {
 		this.infiltred = bool;
 	}
+	public void incrementNbInfiltration() {
+		this.nb_infiltration += 1;
+	}
 	
 	// Méthodes
 	public String toString() {
@@ -50,7 +59,6 @@ public class MembreLibere extends Personnel {
 		if (super.getVaisseau().isSafe()) {
 			M.entrer(this);
 			setInfiltred(true);
-			setIcone("M  ");
 		} else {
 			throw new MatriceException("Infiltration impossible, le vaisseau n'est pas sécurisé");
 		}
@@ -58,13 +66,22 @@ public class MembreLibere extends Personnel {
 	
 	// Sort de la matrice -> nb infiltration augmente
 	public void exfiltrer(Matrice M) {
-		M.sortir(this);
-		setInfiltred(false);
-		nb_infiltration += 1;
+		if (!disconnected) { // Si n'est pas déconnecté		
+			M.sortir(this);
+			setInfiltred(false);
+			incrementNbInfiltration();
+		}
 	}
 	
 	// Est dans la matrice ?
 	public boolean isInfiltred() {
 		return infiltred;
+	}
+	
+	// Déconnecte quand se fait infecté
+	public void Disconnect() {
+		System.out.println("Deconnexion");
+		disconnected = true;
+		setIcone("m  ");
 	}
 }

@@ -12,6 +12,16 @@ public class Agent extends MembreLibere { // classe parent MembreLibere car peut
 		super.setIcone("A" + degreEfficacite + " ");
 	}
 	
+	// Getters
+	public int getDegreEfficacite() {
+		return degreEfficacite;
+	}
+	
+	// Setters
+	public void setDegreEfficacite(int degre) {
+		this.degreEfficacite = degre;
+	}
+	
 	public String toString() {
 		return super.toString() + ", degré d'efficacité : " + degreEfficacite;
 	}

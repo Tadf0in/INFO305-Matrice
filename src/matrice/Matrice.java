@@ -68,8 +68,10 @@ public class Matrice {
 		// -> A FAIRE : trier par ordre laphabétique
 		String out = "Membres présents dans la matrice :\n";
 		java.util.Collections.sort(presents); // Tri la liste par ordre alphabétique
-		for (MembreLibere membre: this.presents) {
-			out += "\t- " + membre.getNom() + ", (" + membre.getX() + ", " + membre.getY() + ")\n";
+		for (MembreLibere membre: presents) {
+			out += "\t- " + membre.getNom() + 
+					", " + ((membre instanceof Agent) ? ((Agent)membre).getDegreEfficacite() : membre.getNbInfiltration()) + 
+					", (" + membre.getX() + ", " + membre.getY() + ")\n";
 		}
 		return out;
 	}
@@ -84,6 +86,11 @@ public class Matrice {
 		} while (atPosition(x, y) != ".  ");
 		m.setCoordinates(x, y); // Assigne les coordonées libres au membre
 		presents.add(m); // Ajoute le membre dans la liste des membres présents à l'intérieur de la matrice
+		
+		// Si membre pas agent -> vérifie si il se fait infecter
+		if (!(m instanceof Agent)) {			
+			estInfecte(m);
+		}
 	}
 	
 	// Membre sort de la matrice -> retiré de la liste
@@ -92,7 +99,7 @@ public class Matrice {
 	}
 	
 	// Caclule la distance entre un membre et un agent
-	public double distanceAgent(MembreLibere mbr, Agent agt) {
+	private double distanceAgent(MembreLibere mbr, Agent agt) {
 		int x = agt.getX() - mbr.getX();
 		int y = agt.getY() - mbr.getY();
 		return Math.sqrt(x*x + y*y);
@@ -102,16 +109,39 @@ public class Matrice {
 	public Agent agentPlusProche(MembreLibere mbr) {
 		double min_distance = 15; // distance max possible = 10*sqrt(2) ~= 14.1 < 15
 		Agent agentpp = null;
-		for (MembreLibere m: presents) { // Parcours tous les membres présents dans la matrice
-			if (m instanceof Agent) { // Si bien agent et pas autre membre
-				double d = distanceAgent(mbr, (Agent)m); 
+		for (MembreLibere a: presents) { // Parcours tous les membres présents dans la matrice
+			if (a instanceof Agent) { // Si bien agent et pas autre membre
+				double d = distanceAgent(mbr, (Agent)a); 
 				// Garde la plus petite distance et l'agent qui s'y trouve
 				if (d < min_distance) {
 					min_distance = d;
-					agentpp = (Agent)m;
+					agentpp = (Agent)a;
 				}
 			}
 		}
 		return agentpp;
+	}
+	
+	// Infecte ou pas lors de l'infiltration
+	public void estInfecte(MembreLibere m) {
+		Agent a = agentPlusProche(m);
+		int de = a.getDegreEfficacite();
+		if ((de / distanceAgent(m, a)) > m.getNbInfiltration()) {
+			m.Disconnect();
+		} else {
+			a.setDegreEfficacite((int) de - de/2);
+		}
+	}
+	
+	// Regarde si le peuple de SION à vaincu
+	public boolean victory() {
+		boolean v = true;
+		// Vérifie si tous les agents ont leur degré d'efficacité = 0
+		for (MembreLibere a: presents) {
+			if (a instanceof Agent) {
+				v = v && ((Agent)a).getDegreEfficacite() == 0;
+			}
+		}
+		return v;
 	}
 }

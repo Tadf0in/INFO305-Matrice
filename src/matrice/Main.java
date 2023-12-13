@@ -52,7 +52,10 @@ public class Main {
 		System.out.println(flotte.getPersonnel("Neo").isAffected());
 		
 		
+		// Crée la matrice et l'affiche
 		Matrice M = new Matrice();
+		System.out.println(M);
+		System.out.println(M.listeMembres());
 		
 		// test infiltration sans vaisseau sécurisé
 		try {				
