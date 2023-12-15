@@ -4,14 +4,20 @@ import java.util.ArrayList;
 public class Matrice {
 
 	// Attributs
-	private ArrayList<MembreLibere> presents;
+	private ArrayList<MembreLibere> presents; // Liste des membres présents dans la matrice
+	private int TAILLE = 20;
+	private int NB_AGENTS = 100;
 	
 	// Constructeur
 	public Matrice() {		
 		presents = new ArrayList<MembreLibere>();
-		for (int i=0; i<3; i++) { // 3 tours de boucle pour ajouter 3 agents
+		for (int i=0; i<NB_AGENTS; i++) { // n tours de boucle pour ajouter n agents
 			// Ajoute l'agent dans la matrice
-			this.entrer(new Agent("agent_"+(3-i), false, (int)(Math.random() * 5))); 
+			try {				
+				this.entrer(new Agent("agent_"+(NB_AGENTS-i), false, (int)(Math.random() * 5))); 
+			} catch (MatriceException e) {
+				System.out.println(e);
+			}
 		}
 		checkVictory(); // Si les 3 agents spawn avec un degre de 0 alors victoire directe
 	}
@@ -33,10 +39,23 @@ public class Matrice {
 	
 	// Affiche la matrice
 	public String afficher() {
-		String out = "   0  1  2  3  4  5  6  7  8  9 \n";
-		for (int i=0; i<10; i++) { // Parcours les colonnes
-			out += i + "  ";
-			for (int j=0; j<10; j++) { // Parcours les lignes
+		String out = "   ";
+		for (int i=0; i<TAILLE; i++) { // Premiere ligne de chiffres
+			if (i < 10) {				
+				out += i + "  "; 
+			} else {
+				out += i + " ";
+			}
+		}
+		out += "\n";
+		for (int i=0; i<TAILLE; i++) { // Parcours les colonnes
+			// Colonne de chiffre
+			if (i < 10) {				
+				out += i + "  "; 
+			} else {
+				out += i + " ";
+			}
+			for (int j=0; j<TAILLE; j++) { // Parcours les lignes
 				out += this.atPosition(i, j);
 			}
 			out += "\n";
@@ -58,12 +77,16 @@ public class Matrice {
 	}
 	
 	// Fait rentrer un membre dans la matrice -> le rajoute dans la liste
-	public void entrer(MembreLibere m) {
+	public void entrer(MembreLibere m) throws MatriceException {
+		if (presents.size() >= TAILLE*TAILLE) { // Si matrice pleine
+			throw new MatriceException("La matrice est pleine");
+		}
+		
 		int x; int y;
 		// Choisit des coordonées aléatoire et en rechoisis d'autre juqu'à en trouver des libres
 		do {	
-			x = (int)(Math.random() * 10);
-			y = (int)(Math.random() * 10);
+			x = (int)(Math.random() * TAILLE);
+			y = (int)(Math.random() * TAILLE);
 		} while (atPosition(x, y) != ".  ");
 		m.setCoordinates(x, y); // Assigne les coordonées libres au membre
 		presents.add(m); // Ajoute le membre dans la liste des membres présents à l'intérieur de la matrice
@@ -88,7 +111,7 @@ public class Matrice {
 	
 	// Retourne l'agent le plus proche du Membre mbr
 	public Agent agentPlusProche(MembreLibere mbr) {
-		double min_distance = 15; // distance max possible = 10*sqrt(2) ~= 14.1 < 15
+		double min_distance = TAILLE * Math.sqrt(2) + 1; // distance max possible = 10*sqrt(2) ~= 14.1 < 15
 		Agent agentpp = null;
 		for (MembreLibere a: presents) { // Parcours tous les membres présents dans la matrice
 			if (a instanceof Agent) { // Si bien agent et pas autre membre

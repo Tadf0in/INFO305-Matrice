@@ -53,6 +53,10 @@ public class Menu {
 					affecterMembre();
 					break;	
 					
+				case "5":
+					desaffecterMembre();
+					break;
+					
 				// Affiche la matrice
 				case "8":
 					System.out.println(M);
@@ -171,6 +175,22 @@ public class Menu {
 			System.out.println(e);
 		}
 	}
+	
+	// Gère la désaffectation d'un membres de son vaisseau
+		public static void desaffecterMembre() {			
+			// Membre à désaffecter
+			System.out.print("Membre : ");
+			Personnel p = flotte.getPersonnel(scanner.next());
+			if (p == null) {
+				System.out.println("Ce membre n'existe pas");
+				return;
+			}
+			
+			// Affecte le membre dans le vaisseau
+			if (p.isAffected()) {				
+				p.getVaisseau().desaffecter(p);
+			}
+		}
 	
 	// Test bonus : affichage symboles verts comme dans matrix
 	public static void Rain() {
