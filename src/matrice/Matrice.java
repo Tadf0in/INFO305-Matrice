@@ -24,6 +24,7 @@ public class Matrice {
 			// Ajoute l'agent dans la matrice
 			this.entrer(new Agent("agent_"+(3-i), false, (int)(Math.random() * 5))); 
 		}
+		checkVictory(); // Si les 3 agents spawn avec un degre de 0 alors victoire directe
 	}
 	
 	public String toString() {

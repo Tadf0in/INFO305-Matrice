@@ -7,14 +7,18 @@ import java.util.concurrent.TimeUnit;
 public class Menu {	
 	
 	private static Scanner scanner = new Scanner(System.in);
+	private static Matrice M = new Matrice();
+	private static Flotte flotte = new Flotte();
 	
 	public static void afficherMenu() {
 		System.out.println("\n1 - Ajouter un membre");
 		System.out.println("2 - Ajouter un vaisseau");
 		System.out.println("3 - Voir la liste de la flotte");
 		System.out.println("4 - Affecter un membre à un vaisseau");
-		System.out.println("5 - Infiltrer un membre dans la matrice");
-		System.out.println("6 - Exfiltrer un membre de la matrice");
+		System.out.println("5 - Désaffecter un membre d'un vaisseau");
+		System.out.println("6 - Infiltrer un membre dans la matrice");
+		System.out.println("7 - Exfiltrer un membre de la matrice");
+		System.out.println("8 - Afficher la matrice");
 		System.out.println("q - Quitter");
 		System.out.print(">>> ");
 	}
@@ -23,79 +27,20 @@ public class Menu {
 		// Rain();
 		System.out.println("BIENVENUE DANS LA MATRICE");
 		
-		Matrice M = new Matrice();
-		Flotte flotte = new Flotte();
-		
-		String input;
 		boolean continuer = true;
 		while (continuer) {
 			afficherMenu();
 			
 			String c = scanner.next();
 			switch (c) {
-				// Ajout d'un membre
+				// Ajoute un membre
 				case "1":
-					// OPSion ou MembreLibere
-					System.out.println("1 - Ajouter un opérateur SION");
-					System.out.println("2 - Ajouter un membre libéré");
-					System.out.print(">>> ");
-					String category = scanner.next();
-					if (!category.equals("1") && !category.equals("2")) {
-						System.out.println("Choix invalide");
-						break;
-					}
-					
-					System.out.print("Nom : ");
-					String nom = scanner.next();
-					
-					String g;	
-					boolean genre;
-					System.out.print("Genre (homme ou femme) : ");
-					g = scanner.next();
-					// Homme doit être soit homme soit femme
-					if (g.equals("homme") || g.equals("femme")) {						
-						genre = (g == "homme"); // si g = homme alors true sinon false car genre un bool dans Personnel
-					} else {
-						System.out.println("Genre incompris");
-						break;
-					}
-					
-					// Age doit être un entier
-					int age;
-					try {
-						System.out.print("Age : ");
-						age = scanner.nextInt();
-					} catch (java.util.InputMismatchException e) {
-						System.out.println("Âge incompris");
-						break;
-					}
-					
-					System.out.print("Grade : ");
-					String grade = scanner.next();
-					
-					// Role pour OPSion
-					if (category.equals("1")) {
-						System.out.print("Rôle : ");
-						String role = scanner.next();
-						
-						// Crée l'opérateur SION
-						try {
-							flotte.addUniquePersonnel(new OperateurSION(nom, genre, age, grade, role));
-						} catch (MatriceException e) {
-							System.out.println(e);
-						}
-					} else {
-						// Crée le membre libéré
-						try {
-							flotte.addUniquePersonnel(new MembreLibere(nom, genre, age, grade));
-						} catch (MatriceException e) {
-							System.out.println(e);
-						}
-					}
+					createPersonne();
 					break;
 					
 				// Ajoute un vaisseau
 				case "2":
+					createVaisseau();
 					break;
 				
 				// Voir la liste de la flotte
@@ -105,7 +50,13 @@ public class Menu {
 					
 				// Affecter un membre à un vaisseau
 				case "4":
+					affecterMembre();
 					break;	
+					
+				// Affiche la matrice
+				case "8":
+					System.out.println(M);
+					break;
 				
 				// Quitter le programme
 				case "q":
@@ -117,6 +68,108 @@ public class Menu {
 			}
 		}
 		System.out.println("FIN DU PROGRAMME");
+	}
+	
+	// Gère la création d'un nouveau membre
+	public static void createPersonne() {
+		// OPSion ou MembreLibere
+		System.out.println("1 - Ajouter un opérateur SION");
+		System.out.println("2 - Ajouter un membre libéré");
+		System.out.print(">>> ");
+		String category = scanner.next();
+		if (!category.equals("1") && !category.equals("2")) {
+			System.out.println("Choix invalide");
+			return;
+		}
+		
+		System.out.print("Nom : ");
+		String nom = scanner.next();
+		
+		String g;	
+		boolean genre;
+		System.out.print("Genre (homme ou femme) : ");
+		g = scanner.next();
+		// Homme doit être soit homme soit femme
+		if (g.equals("homme") || g.equals("femme")) {						
+			genre = (g == "homme"); // si g = homme alors true sinon false car genre un bool dans Personnel
+		} else {
+			System.out.println("Genre incompris");
+			return;
+		}
+		
+		// Age doit être un entier
+		int age;
+		try {
+			System.out.print("Age : ");
+			age = scanner.nextInt();
+		} catch (java.util.InputMismatchException e) {
+			System.out.println("Âge incompris");
+			return;
+		}
+		
+		System.out.print("Grade : ");
+		String grade = scanner.next();
+		
+		// Role pour OPSion
+		if (category.equals("1")) {
+			System.out.print("Rôle : ");
+			String role = scanner.next();
+			
+			// Crée l'opérateur SION
+			try {
+				flotte.addUniquePersonnel(new OperateurSION(nom, genre, age, grade, role));
+			} catch (MatriceException e) {
+				System.out.println(e);
+			}
+		} else {
+			// Crée le membre libéré
+			try {
+				flotte.addUniquePersonnel(new MembreLibere(nom, genre, age, grade));
+			} catch (MatriceException e) {
+				System.out.println(e);
+			}
+		}
+	}
+	
+	// Gère la création d'un vaisseau
+	public static void createVaisseau() {
+		System.out.print("Nom : ");
+		String nom = scanner.next();
+		
+		System.out.print("Type : ");
+		String type = scanner.next();
+		
+		try {
+			flotte.addUniqueVaisseau(new Vaisseau(nom, type));
+		} catch (MatriceException e) {
+			System.out.println(e);
+		}
+	}
+	
+	// Gère l'affectation des membres dans un vaisseau
+	public static void affecterMembre() {
+		// Vaisseau dans lequel affecter
+		System.out.println("Vaisseau : ");
+		Vaisseau v = flotte.getVaisseau(scanner.next());
+		if (v == null) {
+			System.out.print("Ce vaisseau n'existe pas");
+			return;
+		}
+		
+		// Membre à affecter
+		System.out.print("Membre : ");
+		Personnel p = flotte.getPersonnel(scanner.next());
+		if (p == null) {
+			System.out.println("Ce membre n'existe pas");
+			return;
+		}
+		
+		// Affecte le membre dans le vaisseau
+		try {			
+			v.affecter(p);
+		} catch (MatriceException e) {
+			System.out.println(e);
+		}
 	}
 	
 	// Test bonus : affichage symboles verts comme dans matrix

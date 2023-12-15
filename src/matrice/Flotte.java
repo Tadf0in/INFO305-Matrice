@@ -63,7 +63,7 @@ public class Flotte {
 	// Cherche un vaisseau grâce à son nom
 	public Vaisseau getVaisseau(String nom) {
 		for (Vaisseau v: this.vaisseaux) {
-			if (v.getNom() == nom) {
+			if (v.getNom().equals(nom)) {
 				return v;
 			}
 		}
@@ -73,7 +73,7 @@ public class Flotte {
 	// Cherche un membre grâce à son nom
 	public Personnel getPersonnel(String nom) {
 		for (Personnel p: this.personnel) {
-			if (p.getNom() == nom) {
+			if (p.getNom().equals(nom)) {
 				return p;
 			}
 		}
