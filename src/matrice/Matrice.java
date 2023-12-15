@@ -5,20 +5,9 @@ public class Matrice {
 
 	// Attributs
 	private ArrayList<MembreLibere> presents;
-	private String[][] grille;
 	
 	// Constructeur
-	public Matrice() {
-		// Initialise la grille de 10x10 points
-		grille = new String[10][10];
-		for (int i=0; i<10; i++) {
-			String[] row = new String[10];
-			for (int j=0; j<10; j++) {
-				row[j] = ".  ";
-			}
-			grille[i] = row;
-		}
-		
+	public Matrice() {		
 		presents = new ArrayList<MembreLibere>();
 		for (int i=0; i<3; i++) { // 3 tours de boucle pour ajouter 3 agents
 			// Ajoute l'agent dans la matrice
@@ -41,23 +30,14 @@ public class Matrice {
 		return ".  ";
 	}
 	
-	// Met à jour la grille avec les nouvelles positions
-	public void updateGrille() {
-		for (int i=0; i<10; i++) { // Parcours les colonnes
-			for (int j=0; j<10; j++) { // Parcours les lignes
-				grille[i][j] = this.atPosition(i, j);
-			}
-		}
-	}
 	
 	// Affiche la matrice
 	public String afficher() {
-		this.updateGrille();
 		String out = "   0  1  2  3  4  5  6  7  8  9 \n";
 		for (int i=0; i<10; i++) { // Parcours les colonnes
 			out += i + "  ";
 			for (int j=0; j<10; j++) { // Parcours les lignes
-				out += grille[i][j];
+				out += this.atPosition(i, j);
 			}
 			out += "\n";
 		}
