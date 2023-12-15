@@ -13,7 +13,7 @@ public class MembreLibere extends Personnel {
 	// Constructeur
 	public MembreLibere (String nom, boolean genre, int age, String grade) {
 		super(nom, genre, age, grade); // Initialisation de la calsse parent (Personnel)
-		this.nb_infiltration = 0;
+		this.nb_infiltration = 1;
 		this.infiltred = false;
 		this.disconnected = false;
 		this.icone = "M  ";
@@ -56,6 +56,9 @@ public class MembreLibere extends Personnel {
 	
 	// Infiltre la matrice
 	public void infiltrer(Matrice M) throws MatriceException {
+		if (super.getVaisseau() == null) {
+			throw new MatriceException("Ce membre n'est pas affecté à un vaisseau");
+		}
 		if (super.getVaisseau().isSafe()) {
 			M.entrer(this);
 			setInfiltred(true);
@@ -65,11 +68,13 @@ public class MembreLibere extends Personnel {
 	}
 	
 	// Sort de la matrice -> nb infiltration augmente
-	public void exfiltrer(Matrice M) {
+	public void exfiltrer(Matrice M) throws MatriceException {
 		if (!disconnected) { // Si n'est pas déconnecté		
 			M.sortir(this);
 			setInfiltred(false);
 			incrementNbInfiltration();
+		} else {
+			throw new MatriceException("Le membre est infecté, il ne peut pas s'exfiltrer");
 		}
 	}
 	
@@ -80,7 +85,6 @@ public class MembreLibere extends Personnel {
 	
 	// Déconnecte quand se fait infecté
 	public void disconnect() {
-		System.out.println("Deconnexion");
 		disconnected = true;
 		setIcone("m  ");
 	}

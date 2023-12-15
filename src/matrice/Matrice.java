@@ -5,8 +5,8 @@ public class Matrice {
 
 	// Attributs
 	private ArrayList<MembreLibere> presents; // Liste des membres présents dans la matrice
-	private int TAILLE = 20;
-	private int NB_AGENTS = 100;
+	private int TAILLE = 10;
+	private int NB_AGENTS = 3;
 	
 	// Constructeur
 	public Matrice() {		
@@ -19,7 +19,6 @@ public class Matrice {
 				System.out.println(e);
 			}
 		}
-		checkVictory(); // Si les 3 agents spawn avec un degre de 0 alors victoire directe
 	}
 	
 	public String toString() {
@@ -133,11 +132,7 @@ public class Matrice {
 		if ((de / distanceAgent(m, a)) > m.getNbInfiltration()) {
 			m.disconnect();
 		} else {
-			a.setDegreEfficacite((int) de - de/2);
-			// Si degre tombe à 0, vérifie le peuple de SION a vaincu (= autres agents aussi à 0)
-			if (a.getDegreEfficacite() == 0) {
-				checkVictory();
-			}
+			a.setDegreEfficacite((int) Math.floor(de - (double)de/2)); // Math.floor prend le premier entier inférieur à la valeur
 		}
 	}
 	

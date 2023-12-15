@@ -23,9 +23,28 @@ public class Menu {
 		System.out.print(">>> ");
 	}
 	
+	
 	public static void main(String[] args) {
-		// Rain();
+		Rain();
 		System.out.println("BIENVENUE DANS LA MATRICE");
+		
+		//===================================================================
+		// Membres et vaisseaux ajoutés par défaut pour tester plus rapidement
+		try {
+			flotte.addUniquePersonnel(new OperateurSION("Louis", false, 19, "Etudiant", "Developpeur"));
+			flotte.addUniquePersonnel(new MembreLibere("Morpheus", false, 19, "Etudiant"));
+			flotte.addUniquePersonnel(new MembreLibere("Neo", false, 19, "Etudiant"));
+
+			flotte.addUniqueVaisseau(new Vaisseau("Faucon-Millenium", "Transport"));
+			flotte.addUniqueVaisseau(new Vaisseau("X-Wing", "Guerre"));
+			
+			flotte.getVaisseau("X-Wing").affecter(flotte.getPersonnel("Neo"));
+			flotte.getVaisseau("Faucon-Millenium").affecter(flotte.getPersonnel("Louis"));
+			flotte.getVaisseau("Faucon-Millenium").affecter(flotte.getPersonnel("Morpheus"));
+		} catch (MatriceException e) {
+			System.out.println(e);
+		}
+		//====================================================================
 		
 		boolean continuer = true;
 		while (continuer) {
@@ -52,13 +71,35 @@ public class Menu {
 				case "4":
 					affecterMembre();
 					break;	
-					
+				
+				// Désaffecter un membre de son vaisseau
 				case "5":
 					desaffecterMembre();
 					break;
 					
+				// Infiltre un membre dans la matrice
+				case "6":
+					infiltrerMembre();
+					
+					// Affiche la matrice
+					System.out.println(M.listeMembres());
+					System.out.println(M);
+					
+					// Vérifie si a gagné
+					if (M.checkVictory()) {
+						System.out.println("Le peuple de SION a vaincu !");
+						continuer = false;
+					}
+					break;
+				
+				// Exfiltre un membre de la matrice
+				case "7":
+					exfiltrerMembre();
+					break;
+					
 				// Affiche la matrice
 				case "8":
+					System.out.println(M.listeMembres());
 					System.out.println(M);
 					break;
 				
@@ -73,6 +114,7 @@ public class Menu {
 		}
 		System.out.println("FIN DU PROGRAMME");
 	}
+	
 	
 	// Gère la création d'un nouveau membre
 	public static void createPersonne() {
@@ -135,6 +177,7 @@ public class Menu {
 		}
 	}
 	
+	
 	// Gère la création d'un vaisseau
 	public static void createVaisseau() {
 		System.out.print("Nom : ");
@@ -150,10 +193,11 @@ public class Menu {
 		}
 	}
 	
+	
 	// Gère l'affectation des membres dans un vaisseau
 	public static void affecterMembre() {
 		// Vaisseau dans lequel affecter
-		System.out.println("Vaisseau : ");
+		System.out.print("Vaisseau : ");
 		Vaisseau v = flotte.getVaisseau(scanner.next());
 		if (v == null) {
 			System.out.print("Ce vaisseau n'existe pas");
@@ -176,23 +220,69 @@ public class Menu {
 		}
 	}
 	
-	// Gère la désaffectation d'un membres de son vaisseau
-		public static void desaffecterMembre() {			
-			// Membre à désaffecter
-			System.out.print("Membre : ");
-			Personnel p = flotte.getPersonnel(scanner.next());
-			if (p == null) {
-				System.out.println("Ce membre n'existe pas");
-				return;
-			}
-			
-			// Affecte le membre dans le vaisseau
-			if (p.isAffected()) {				
-				p.getVaisseau().desaffecter(p);
-			}
-		}
 	
-	// Test bonus : affichage symboles verts comme dans matrix
+	// Gère la désaffectation d'un membres de son vaisseau
+	public static void desaffecterMembre() {			
+		// Membre à désaffecter
+		System.out.print("Membre : ");
+		Personnel p = flotte.getPersonnel(scanner.next());
+		if (p == null) {
+			System.out.println("Ce membre n'existe pas");
+			return;
+		}
+		
+		// Affecte le membre dans le vaisseau
+		if (p.isAffected()) {				
+			p.getVaisseau().desaffecter(p);
+		}
+	}
+		
+		
+	// Gère l'infiltration d'un membre dans la matrice
+	public static void infiltrerMembre() {
+		// Membre à désaffecter
+		System.out.print("Membre : ");
+		Personnel p = flotte.getPersonnel(scanner.next());
+		if (p == null) {
+			System.out.println("Ce membre n'existe pas");
+			return;
+		} else if (p instanceof OperateurSION) {
+			System.out.println("Seul les membres libérés peuvent entrer dans la matrice");
+			return;
+		}
+		 
+		// Infiltre
+		try {				
+			((MembreLibere) p).infiltrer(M); 
+		} catch (MatriceException e) {
+			System.out.println(e);
+		}
+	}
+	
+	
+	// Gère l'exfiltration d'um membre de la matrice
+	public static void exfiltrerMembre() {
+		// Membre à désaffecter
+		System.out.print("Membre : ");
+		Personnel p = flotte.getPersonnel(scanner.next());
+		if (p == null) {
+			System.out.println("Ce membre n'existe pas");
+			return;
+		} else if (p instanceof OperateurSION) {
+			System.out.println("Seul les membres libérés peuvent entrer dans la matrice");
+			return;
+		}
+		
+		// Exfiltre
+		try {
+			((MembreLibere) p).exfiltrer(M);
+		} catch (MatriceException e) {
+			System.out.println(e);
+		}
+	}
+	
+	
+	// Bonus : affichage symboles verts comme dans matrix
 	public static void Rain() {
 		ArrayList<String> chars = new ArrayList<String>(Arrays.asList("&","é","'","(","-","è","_","ç","à",")","=","°","+","/","*","~","#","{","[","|","`","\\","^","@","]","}"));
 		
