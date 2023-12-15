@@ -1,13 +1,9 @@
 package matrice;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.concurrent.TimeUnit;
 
 public class Main {
 	public static void main(String[] args) {
 		
-		Rain();
-				
 		Flotte flotte = new Flotte();
 		
 		// Liste temporaire des vaisseaux qu'on souhaite ajouter
@@ -52,7 +48,7 @@ public class Main {
 		System.out.println(flotte.getPersonnel("Neo").isAffected());
 		
 		
-		// Crée la matrice et l'affiche
+		// Crée et affiche la matrice
 		Matrice M = new Matrice();
 		System.out.println(M);
 		System.out.println(M.listeMembres());
@@ -90,41 +86,5 @@ public class Main {
 		// Affiche la matrice
 		System.out.println(M);
 		System.out.println(M.listeMembres());
-	}
-	
-	
-	// Test affichage symboles verts comme dans matrix
-	public static void Rain() {
-		ArrayList<String> chars = new ArrayList<String>(Arrays.asList("&","é","'","(","-","è","_","ç","à",")","=","°","+","/","*","~","#","{","[","|","`","\\","^","@","]","}"));
-		
-		int NB_COLONNES = 80;
-		int NB_LIGNES = 150;
-		
-		// Définit des tailles aléatoires de colonnes
-		int[] long_colonnes = new int[NB_COLONNES];
-		for (int j=0; j<NB_COLONNES; j++) {
-			long_colonnes[j] = (int) (NB_LIGNES - (Math.random() * (NB_LIGNES - NB_LIGNES*0.2)));
-		}
-		
-		System.out.print("\u001B[32m"); // Couleur verte
-		for (int i=0; i<NB_LIGNES; i++) {
-			for (int j=0; j<NB_COLONNES; j++) {
-				if (long_colonnes[j] >= i) {
-					// Affiche selon la taille e la colonne définie plus haut
-					System.out.print(chars.get((int)(Math.random() * (chars.size()-1))) + " ");
-				} else {	
-					// Sinon colonne terminée = affiche un espace
-					System.out.print("  ");
-				}
-			}
-			// Attend avant d'afficher la suite pour faire un meilleur effet
-			try {						
-				TimeUnit.MILLISECONDS.sleep(10);
-			} catch (InterruptedException e) {
-				
-			}
-			System.out.print("\n"); // Remet couleur en blanc
-		}
-		System.out.print("\u001B[0m");
 	}
 }

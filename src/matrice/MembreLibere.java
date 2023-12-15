@@ -79,7 +79,7 @@ public class MembreLibere extends Personnel {
 	}
 	
 	// Déconnecte quand se fait infecté
-	public void Disconnect() {
+	public void disconnect() {
 		System.out.println("Deconnexion");
 		disconnected = true;
 		setIcone("m  ");

@@ -14,9 +14,9 @@ public class Flotte {
 	}
 	
 	// Vérifie qu'il n'existe pas déjà un vaisseau avec le même nom avant d'ajouter dans la liste
-	private void addUniqueVaisseau(Vaisseau value) throws MatriceException {
+	public void addUniqueVaisseau(Vaisseau value) throws MatriceException {
 		for (Vaisseau v: this.vaisseaux) {
-			if (v.getNom() == value.getNom()) {				
+			if (v.getNom().equals(value.getNom())) {				
 				throw new MatriceException("Un vaisseau porte déjà ce nom");
 			}
 		}
@@ -24,9 +24,9 @@ public class Flotte {
 	}
 	
 	// Vérifie qu'il n'existe pas déjà quelqu'un avec le même nom avant d'ajouter dans la liste
-	private void addUniquePersonnel(Personnel value) throws MatriceException {
+	public void addUniquePersonnel(Personnel value) throws MatriceException {
 		for (Personnel p: this.personnel) {
-			if (p.getNom() == value.getNom()) {				
+			if (p.getNom().equals(value.getNom())) {				
 				throw new MatriceException("Un membre du personnel porte déjà ce nom");
 			}
 		}

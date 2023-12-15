@@ -127,7 +127,7 @@ public class Matrice {
 		Agent a = agentPlusProche(m);
 		int de = a.getDegreEfficacite();
 		if ((de / distanceAgent(m, a)) > m.getNbInfiltration()) {
-			m.Disconnect();
+			m.disconnect();
 		} else {
 			a.setDegreEfficacite((int) de - de/2);
 			// Si degre tombe à 0, vérifie le peuple de SION a vaincu (= autres agents aussi à 0)
